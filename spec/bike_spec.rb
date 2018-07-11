@@ -1,7 +1,5 @@
-require 'boris_bikes'
+require 'docking_station'
 
 describe Bike do
-  it 'repsonds to the method "working?"' do
-    expect(subject).to respond_to(:working?)
-  end
+  it { should respond_to(:working?) }
 end
