@@ -9,9 +9,3 @@ class DockingStation
 
   attr_reader :bike
 end
-
-class Bike
-  def working?
-    true
-  end
-end
