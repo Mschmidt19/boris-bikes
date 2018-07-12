@@ -9,7 +9,7 @@ describe DockingStation do
   #tests for dock method and ensures dock accepts one argument
   it { is_expected.to respond_to(:dock).with(1).argument }
 
-  it "should return a working instance of class Bike" do
+  it "should release a working bike" do
     new_bike = Bike.new
     subject.dock(new_bike)
     bike = subject.release_bike
