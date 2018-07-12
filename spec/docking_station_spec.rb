@@ -4,7 +4,7 @@ describe DockingStation do
 
   it { should respond_to(:release_bike) }
 
-  it { is_expected.to respond_to(:bike) } #test for attr_reader of bike
+  it { is_expected.to respond_to(:bikes) } #test for attr_reader of bike
 
   #tests for dock method and ensures dock accepts one argument
   it { is_expected.to respond_to(:dock).with(1).argument }
@@ -16,15 +16,11 @@ describe DockingStation do
     expect(bike).to be_working
   end
 
-  it 'docks a bike' do
-    bike = Bike.new
-    expect(subject.dock(bike)).to eq bike
-  end
 
-  it 'should respond to bike with a currently docked bike' do
+  it 'should respond to bikes with a currently docked bike' do
     bike = Bike.new
     subject.dock(bike)
-    expect(subject.bike).to eq bike
+    expect(subject.bikes[0]).to eq bike
   end
 
   describe '#release_bike' do
@@ -39,5 +35,21 @@ describe DockingStation do
     end
   end
 
+  describe '#dock' do
+    it 'docks a bike' do
+      bike = Bike.new
+      expect(subject.dock(bike)).to eq bike
+    end
+
+    it 'raises an error if there is already 20 bikes docked' do
+      20.times {subject.dock(Bike.new)}
+      expect {subject.dock(Bike.new)}.to raise_error('Capacity is full')
+    end
+
+    it 'can dock 20 bikes' do
+      20.times {subject.dock(Bike.new)}
+      expect(subject.bikes.length).to eq 20
+    end
+  end
 
 end
