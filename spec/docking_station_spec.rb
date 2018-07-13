@@ -16,6 +16,13 @@ describe DockingStation do
     it { is_expected.to respond_to(:capacity) } #test for attr_reader of capacity
   end
 
+  describe '#initialize' do
+    it 'without passing an argument upon initialization, the capacity gets set to the default of 20' do
+      docking_station = DockingStation.new
+      expect(docking_station.capacity).to eq DockingStation::DEFAULT_CAPACITY
+    end
+  end
+
   describe '#release_bike' do
     it { is_expected.to respond_to(:release_bike) }
 
@@ -47,7 +54,7 @@ describe DockingStation do
       expect(subject.dock(bike)).to eq bike
     end
 
-    it 'when using default capacity, raises an error if there is already 20 bikes docked' do
+    it 'when using default capacity, raises an error when docking a 21st bike' do
       subject.capacity.times {subject.dock(Bike.new)}
       expect {subject.dock(Bike.new)}.to raise_error('Capacity is full')
     end
@@ -57,13 +64,13 @@ describe DockingStation do
       expect(subject.bikes.length).to eq subject.capacity
     end
 
-    it 'when specifying a capacity of 30, raises an error if there is already 30 bikes docked' do
+    it 'when specifying a capacity of 30, raises an error when docking a 31st bike' do
       ds_30 = DockingStation.new(30)
       ds_30.capacity.times {ds_30.dock(Bike.new)}
       expect {ds_30.dock(Bike.new)}.to raise_error('Capacity is full')
     end
 
-    it 'when specifying a capacity of 30, does not raise an error when docking 21 bikes' do
+    it 'when specifying a capacity of 30, does not raise an error when docking a 21st bike' do
       ds_30 = DockingStation.new(30)
       20.times {ds_30.dock(Bike.new)}
       expect {ds_30.dock(Bike.new)}.to_not raise_error
